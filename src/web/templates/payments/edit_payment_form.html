@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}Editar Pago{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mx-auto">
+        <div class="mt-1 md:mt-4 md:col-span-2">
+            <form action="{{ url_for('payments.payment_edit', payment_id=payment.id) }}" method="POST">
+                <div class="shadow overflow-hidden sm:rounded-md bg-white">
+                    <div class="mb-2 p-4  bg-white">
+                        <h2 class="font-sans text-xl font-semibold text-gray-900">Editar Pago</h2>
+                    </div>
+                    <div class="px-2 py-8 bg-white sm:p-6">
+                        <div class="grid grid-cols-6 gap-6">
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="beneficiary_id" class="block text-sm font-medium text-gray-700">Beneficiario</label>
+                                <input type="text" id="beneficiary_id" name="beneficiary_id" value="{{ payment.beneficiary.email if payment.beneficiary else 'Externo' }}"
+                                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2">
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="amount" class="block text-sm font-medium text-gray-700">Monto</label>
+                                <input type="number" step="0.01" id="amount" name="amount" value="{{ form.amount.data }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="payment_date" class="block text-sm font-medium text-gray-700">Fecha de Pago</label>
+                                <input type="date" id="payment_date" name="payment_date" value="{{ form.payment_date.data.strftime('%Y-%m-%d') if form.payment_date.data else '' }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="payment_type" class="block text-sm font-medium text-gray-700">Tipo de Pago</label>
+                                <select id="payment_type" name="payment_type" required
+                                    class="mt-1 focus:ring-gray-600 focus:border-gray-600 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm outline-none sm:text-sm">
+                                    <option value="Honorarios" {% if form.payment_type.data == 'Honorarios' %}selected{% endif %}>Honorarios</option>
+                                    <option value="Proveedor" {% if form.payment_type.data == 'Proveedor' %}selected{% endif %}>Proveedor</option>
+                                    <option value="Gastos varios" {% if form.payment_type.data == 'Gastos varios' %}selected{% endif %}>Gastos Varios</option>
+                                </select>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="description" class="block text-sm font-medium text-gray-700">Descripción</label>
+                                <textarea id="description" name="description" rows="4" cols="50" value="{{ form.description.data }}"
+                                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>        
+                    <div class="px-4 py-3 bg-white text-right sm:px-6">
+                        <a href="{{ url_for('payments.payment_index') }}">
+                            <button  type="button"  class="bg-blue-900 hover:bg-blue-950 text-white font-semibold py-2 px-4 mr-1 rounded h-10">Volver</button>
+                        </a>
+                        <button type="submit"
+                            class="bg-blue-900 hover:bg-blue-950 text-white font-semibold py-2 px-4 ml-1 rounded h-10">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends 'layout.html' %}
+
+{% block title %}Editar Miembro del Equipo{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mx-auto">
+        <div class="mt-1 md:mt-4 md:col-span-2">
+            <form action="{{ url_for('team_members.team_member_update', team_member_email = team_member.email) }}" method="post" enctype="multipart/form-data">
+                <div class="shadow overflow-hidden sm:rounded-md bg-white">
+                    <div class="mb-2 p-4  bg-white">
+                        <h2 class="font-sans text-xl font-semibold text-gray-900">Editar Información del miembro de Equipo</h2>
+                    </div>
+                    <div class="px-2 py-8 bg-white sm:p-6">
+                        <div class="grid grid-cols-6 gap-6">
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="name" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                                <input type="text" id="name" name="name" value="{{ form.name if form else team_member.name }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="last_name" class="block text-sm font-medium text-gray-700">Apellido:</label>
+                                <input type="text" id="last_name" name="last_name" value="{{ form.last_name if form else team_member.last_name }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="address" class="block text-sm font-medium text-gray-700">Direccion:</label>
+                                <input type="text" id="address" name="address" value="{{ form.address if form else team_member.address }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="locality" class="block text-sm font-medium text-gray-700">Localidad:</label>
+                                <input type="text" id="locality" name="locality" value="{{ form.locality if form else team_member.locality }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Telefono:</label>
+                                <input type="text" id="phone" name="phone" value="{{ form.phone if form else team_member.phone }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="end_date" class="block text-sm font-medium text-gray-700">Fecha de cese (opcional):</label>
+                                <input type="date" id="end_date" name="end_date" value="{{ form.end_date if form else team_member.end_date }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2">
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="emergency_contact" class="block text-sm font-medium text-gray-700">Contacto de Emergencia:</label>
+                                <input type="text" id="emergency_contact" name="emergency_contact" value="{{ form.emergency_contact if form else team_member.emergency_contact }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="emergency_phone" class="block text-sm font-medium text-gray-700">Telefono del contacto de Emergencia:</label>
+                                <input type="text" id="emergency_phone" name="emergency_phone" value="{{ form.emergency_phone if form else team_member.emergency_phone }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="health_insurance" class="block text-sm font-medium text-gray-700">Obra Social:</label>
+                                <select name="health_insurance" id="health_insurance"
+                                    class="mt-1 focus:ring-gray-600 focus:border-gray-600 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm outline-none sm:text-sm" required>
+                                    {% for insurance in health_insurances %}
+                                        <option value="{{ insurance.id }}" 
+                                        {% if insurance.id == (form.health_insurance.id if form else team_member.health_insurance_id) %} selected {% endif %}>
+                                            {{ insurance.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="associated_number" class="block text-sm font-medium text-gray-700">Numero de afiliado obra social:</label>
+                                <input type="text" id="associated_number" name="associated_number" value="{{ form.associated_number if form else team_member.associated_number }}"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2" required>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="condition" class="block text-sm font-medium text-gray-700">Condición:</label>
+                                <select id="condition" name="condition"
+                                    class="mt-1 focus:ring-gray-600 focus:border-gray-600 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm outline-none sm:text-sm" required>
+                                    {% for condition in conditions %}
+                                        <option value="{{ condition }}" {% if condition == (form.condition if form else team_member.condition) %} selected {% endif %}>{{ condition }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="job_position" class="block text-sm font-medium text-gray-700">Posición de Trabajo:</label>
+                                <select id="job_position" name="job_position" 
+                                    class="mt-1 focus:ring-gray-600 focus:border-gray-600 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm outline-none sm:text-sm" required>
+                                    {% for job in jobs %}
+                                        <option value="{{ job }}" {% if job == (form.job_position if form else team_member.job_position) %} selected {% endif %}>{{ job }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="profession" class="block text-sm font-medium text-gray-700">Profesión:</label>
+                                <select id="profession" name="profession" 
+                                    class="mt-1 focus:ring-gray-600 focus:border-gray-600 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm outline-none sm:text-sm" required>
+                                    {% for profession in professions %}
+                                        <option value="{{ profession }}" {% if profession == (form.profession if form else team_member.profession) %} selected {% endif %}>{{ profession }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="title" class="block text-sm font-medium text-gray-700">Titulo:</label>
+                                <input type="file" id="files" name="title" enctype="multipart/form-data"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2">
+                            </div>
+                    
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="dni_copy" class="block text-sm font-medium text-gray-700">Copia DNI:</label>
+                                <input type="file" id="files" name="dni_copy" enctype="multipart/form-data"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2">
+                            </div>
+                    
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="cv" class="block text-sm font-medium text-gray-700">CV :</label>
+                                <input type="file" id="files" name="cv" enctype="multipart/form-data"
+                                    class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-none border px-4 py-2">
+                            </div>
+
+                        </div>
+                    </div>        
+                    <div class="px-4 py-3 bg-white text-right sm:px-6">
+                        <a href="{{ url_for('team_members.team_member_index') }}">
+                            <button  type="button"  class="bg-blue-900 hover:bg-blue-950 text-white font-semibold py-2 px-4 mr-1 rounded h-10">Volver</button>
+                        </a>
+                        <button type="submit"
+                            class="bg-blue-900 hover:bg-blue-950 text-white font-semibold py-2 px-4 ml-1 rounded h-10">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
