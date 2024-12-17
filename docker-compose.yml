@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  flask_app:
+    build:
+      context: ./flask_app  # Ruta donde estará el Dockerfile de Flask
+    command: flask --app app.web.app run --host=0.0.0.0 --port=5000
+    container_name: flask_app
+    ports:
+      - "5000:5000"  # Puerto para acceder a la aplicación Flask
+    environment:
+      PYTHONPATH: /app
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://grupo43:1234@db:5432/grupo43  # Conexión a PostgreSQL
+      MINIO_ENDPOINT: minio:9000  # Conexión a MinIO
+      MINIO_ACCESS_KEY: grupo43
+      MINIO_SECRET_KEY: fierro123
+    volumes:
+      - ./flask_app:/app  # Sincronización del código fuente
+
+  db:
+    image: postgres:latest
+    container_name: mi_postgres_docker
+    environment:
+      POSTGRES_USER: grupo43
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: grupo43
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_docker
+    environment:
+      PGADMIN_DEFAULT_EMAIL: santiago.fierro99@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    restart: always
+
+  minio:
+    image: minio/minio
+    container_name: minio_docker
+    ports:
+      - "9000:9000"  # Puerto del servicio S3
+      - "9001:9001"  # Puerto para la consola de administración
+    environment:
+      MINIO_ROOT_USER: grupo43   # Usuario root
+      MINIO_ROOT_PASSWORD: fierro123  # Contraseña root
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio-data:/data  # Almacenamiento de los datos de MinIO
+
+volumes:
+  minio-data:
+
