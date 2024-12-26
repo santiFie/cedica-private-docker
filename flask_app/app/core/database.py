@@ -45,6 +45,8 @@ def reset():
     create_posts_enums()
     db.create_all()
     print("Database reset complete.")
+    seed_database()
+    print("Database seeded.")
 
 def reset_model(model):
     """
@@ -55,3 +57,65 @@ def reset_model(model):
     model.__table__.drop(db.engine)
     model.__table__.create(db.engine)
     print(f"Model {model.__name__} reset complete.")
+
+def seed_database():
+    from app.core import database
+    from app.core.models.users import User, Role
+    from app.core.auth import create_user
+
+    # Crear roles
+    roles = [
+        Role(id=1, name='Tecnica'),
+        Role(id=2, name='Ecuestre'),
+        Role(id=3, name='Voluntariado'),
+        Role(id=4, name='Administracion')
+    ]
+
+    # Agregar roles a la sesión
+    for role in roles:
+        database.db.session.add(role)
+
+    # Confirmar cambios en la base de datos para los roles
+    database.db.session.commit()
+
+    # Crear usuarios con cada rol
+    users = [
+        {
+            'email': 'tecnica@example.com',
+            'nickname': 'TecnicaUser',
+            'password': 'password123',
+            'role_id': 1
+        },
+        {
+            'email': 'ecuestre@example.com',
+            'nickname': 'EcuestreUser',
+            'password': 'password123',
+            'role_id': 2
+        },
+        {
+            'email': 'voluntariado@example.com',
+            'nickname': 'VoluntariadoUser',
+            'password': 'password123',
+            'role_id': 3
+        },
+        {
+            'email': 'administracion@example.com',
+            'nickname': 'AdministracionUser',
+            'password': 'password123',
+            'role_id': 4
+        },
+        {
+            'email': 'systemadmin@example.com',
+            'nickname': 'SystemAdmin',
+            'password': 'adminpassword',
+            'system_admin': True
+        }
+    ]
+
+    # Crear usuarios utilizando la función create_user
+    for user_data in users:
+        create_user(**user_data)
+
+    
+
+    print("Seed completado exitosamente.")

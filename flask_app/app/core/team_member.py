@@ -60,7 +60,8 @@ def create(form, files):
     try:
         database.db.session.add(team_member)
         database.db.session.flush()
-    except:
+    except Exception as e:
+        print("Este es el error: ", e)
         database.db.session.rollback()
         return flash("Error al crear el miembro de equipo", "info")
     try:
@@ -72,6 +73,7 @@ def create(form, files):
         database.db.session.flush()
 
     except Exception as e:
+        print ("Este es el error 2: ", e)
         database.db.session.rollback()
         return flash("Error al crear miembro de equipo", "info")
 

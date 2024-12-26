@@ -1,5 +1,5 @@
 from datetime import datetime
-from core import minio
+from app.core import minio
 from app.core import database
 from flask import flash, redirect, url_for
 from app.core import utils
