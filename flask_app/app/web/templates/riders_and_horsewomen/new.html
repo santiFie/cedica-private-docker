@@ -7,28 +7,21 @@
 {% endblock %}
 
 {% block scripts %}
-<script app="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script app="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script app="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function(){
         $("#pension_boolean").change(function(event){
             event.preventDefault();
             $("#pension-box").toggle();
         });
-    });
-</script>
-<script>
-    $(document).ready(function(){
+
         $("#scholarship_boolean").change(function(event){
             event.preventDefault();
             $("#scholarship-box").toggle();
             $("#observations-scholarship-box").toggle();
         });
-    });
-</script>
-<script>
-    $(document).ready(function(){
+
         $("#disability_certificate_boolean").change(function(event){
             event.preventDefault();
             $("#disability-certificate-box").toggle();
@@ -36,18 +29,45 @@
             $("#disability-certificate-box3").toggle();
             $("#disability-type-box").toggle();
         });
-    });family-allowance-box
-</script>
-<script>
-    $(document).ready(function(){
+
         $("#family_allowance_boolean").change(function(event){
             event.preventDefault();
             $("#family-allowance-box").toggle();
             $("#family-allowance-box2").toggle();
         });
+
+        $("#second_tutor_boolean").change(function(event){
+            event.preventDefault();
+            $("#second-tutor").toggle();
+        });
+
+        $("#curatela").change(function(event){
+            event.preventDefault();
+            $("#observations_institution_box").toggle();
+        });
+
+        $('#select_pro_1').selectize({ sortField: 'text' });
+        $('#select_pro_2').selectize({ sortField: 'text' });
+        $('#select_pro_3').selectize({ sortField: 'text' });
+        $('#select_pro_4').selectize({ sortField: 'text' });
+        $('#select_pro_5').selectize({ sortField: 'text' });
+
+        var currentPro = 1;
+        $("#more-pro-box").click(function(event){
+            event.preventDefault();
+            currentPro = currentPro + 1;
+            $("#pro-" + currentPro).toggle();
+        });
+
+        var currentBoxFile = 0;
+        $("#more-file-box").click(function(event){
+            event.preventDefault();
+            currentBoxFile = currentBoxFile + 1;
+            $("#arc-" + currentBoxFile).toggle();
+            $("#format-" + currentBoxFile).toggle();
+        });
     });
-</script>
-<script>
+
     function handleSelectChange() {
         const select = document.getElementById('disability_certificate');
         const otroInput = document.getElementById('disability_certificate_otro');
@@ -59,71 +79,8 @@
         }
     }
 </script>
-<script>
-    $(document).ready(function(){
-        $("#second_tutor_boolean").change(function(event){
-            event.preventDefault();
-            $("#second-tutor").toggle();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function(){
-        $("#curatela").change(function(event){
-            event.preventDefault();
-            $("#observations_institution_box").toggle();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#select_pro_1').selectize({
-            sortField: 'text'
-        });
-    });
-    $(document).ready(function () {
-        $('#select_pro_2').selectize({
-            sortField: 'text'
-        });
-    });
-    $(document).ready(function () {
-        $('#select_pro_3').selectize({
-            sortField: 'text'
-        });
-    });
-    $(document).ready(function () {
-        $('#select_pro_4').selectize({
-            sortField: 'text'
-        });
-    });
-    $(document).ready(function () {
-        $('#select_pro_5').selectize({
-            sortField: 'text'
-        });
-    });
-</script>
-<script>
-    $(document).ready(function(){
-        var currentPro = 1;
-        $("#more-pro-box").click(function(event){
-            event.preventDefault();
-            currentPro = currentPro + 1;
-            $("#pro-" + currentPro).toggle();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function(){
-        var currentBoxFile = 0;
-        $("#more-file-box").click(function(event){
-            event.preventDefault();
-            currentBoxFile = currentBoxFile + 1;
-            $("#arc-" + currentBoxFile).toggle();
-            $("#format-" + currentBoxFile).toggle();
-        });
-    });
-</script>
 {% endblock %}
+
 
 {% block content %}
 

@@ -16,6 +16,9 @@ services:
       interval: 5s
       retries: 5
       timeout: 5s
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
 
   flask_app:
     build:
@@ -63,6 +66,7 @@ services:
       - ./minio-data:/data
 
 volumes:
+  postgres_data:
   minio-data:
 
 

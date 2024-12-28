@@ -79,6 +79,7 @@ def riders_and_horsewomen_new(form=None):
     file_type = files_enum.enums
     health_insurances = hi.get_all()
     team_members = tm.get_all()
+    print("Estos son los profesionales ",team_members)     
     therapists = tm.get_all_therapists()
     riders = tm.get_all_riders()
     horses = eq.get_all_equestrians()

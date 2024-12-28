@@ -16,6 +16,7 @@ services:
       interval: 5s
       retries: 5
       timeout: 5s
+    restart: on-failure
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-db:/docker-entrypoint-initdb.d
@@ -23,7 +24,7 @@ services:
   flask_app:
     build:
       context: ./flask_app
-    entrypoint: sh -c "flask --app app.web reset-db && flask --app app.web run --host=0.0.0.0 --port=5000"
+    entrypoint: sh -c "flask --app app.web run --host=0.0.0.0 --port=5000"
     container_name: flask_app
     ports:
       - "5000:5000"
